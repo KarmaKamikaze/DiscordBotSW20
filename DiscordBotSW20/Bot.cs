@@ -19,9 +19,9 @@ namespace DiscordBotSW20
         public async Task RunAsync()
         {
             var json = string.Empty;
-            using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamReader(fs, new UTF8Encoding(false)))
-                json = await sr.ReadToEndAsync().ConfigureAwait(false);
+            using (var filestream = File.OpenRead("config.json"))
+            using (var streamreader = new StreamReader(filestream, new UTF8Encoding(false)))
+                json = await streamreader.ReadToEndAsync().ConfigureAwait(false);
             var configJson = JsonConvert.DeserializeObject<ConfigJson>(json);
 
             var config = new DiscordConfiguration
