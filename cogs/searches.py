@@ -2,12 +2,26 @@ from utils import get_mama_jokes
 import aiohttp
 import discord
 from discord.ext import commands
+from utils import text_to_owo
 from utils import get_mama_jokes
 
 
 class Searches(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+    
+
+    @commands.command(description="Provide arguments", brief="The bot will repeat what you typed")
+    async def say(self, ctx, *args):
+        if len(args) > 0:
+            await ctx.send(" ".join(args))
+        else:
+            await ctx.send("It is not possible to send an empty message.")
+    
+
+    @commands.command(brief="Text-to-OwO")
+    async def owo(self, ctx):
+        await ctx.send(text_to_owo(ctx.message.content[5:]))
 
     
     @commands.command(brief="Sends a random Yo Mama joke")
