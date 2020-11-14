@@ -62,6 +62,20 @@ class Searches(commands.Cog):
 
                     await ctx.send(embed=embed)
 
+
+    @commands.command(brief="Sends a random fox picture")
+    async def randomfox(self, ctx):
+        async with ctx.channel.typing(): # Make it look like the bot is typing (functions as a loading bar)
+            # Set up a API client session and grab the json result as a temporary file
+            async with aiohttp.ClientSession() as cs:
+                async with cs.get("https://randomfox.ca/floof/") as request:
+                    data = await request.json()
+
+                    embed = discord.Embed()
+                    embed.set_image(url=data['image'])
+                    embed.set_footer(text="https://randomfox.ca/")
+
+                    await ctx.send(embed=embed)
     
 
 def setup(bot):
