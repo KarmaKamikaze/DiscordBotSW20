@@ -1,4 +1,5 @@
 from utils import get_mama_jokes
+import aiohttp
 import discord
 from discord.ext import commands
 from utils import get_mama_jokes
@@ -16,6 +17,37 @@ class Searches(commands.Cog):
             await ctx.send("%s, %s" % (member.name, joke))
         else:
             await ctx.send(joke)
+
+
+    @commands.command(brief="Sends a random cat picture")
+    async def randomcat(self, ctx):
+        async with ctx.channel.typing(): # Make it look like the bot is typing (functions as a loading bar)
+            # Set up a API client session and grab the json result as a temporary file
+            async with aiohttp.ClientSession() as cs:
+                async with cs.get("http://aws.random.cat/meow") as request:
+                    data = await request.json()
+
+                    embed = discord.Embed()
+                    embed.set_image(url=data['file'])
+                    embed.set_footer(text="http://random.cat/")
+
+                    await ctx.send(embed=embed)
+    
+
+    @commands.command(brief="Sends a random dog picture")
+    async def randomdog(self, ctx):
+        async with ctx.channel.typing(): # Make it look like the bot is typing (functions as a loading bar)
+            # Set up a API client session and grab the json result as a temporary file
+            async with aiohttp.ClientSession() as cs:
+                async with cs.get("https://random.dog/woof.json") as request:
+                    data = await request.json()
+
+                    embed = discord.Embed()
+                    embed.set_image(url=data['url'])
+                    embed.set_footer(text="https://random.dog/")
+
+                    await ctx.send(embed=embed)
+
     
 
 def setup(bot):
