@@ -14,11 +14,9 @@ async def get_mama_jokes():
 
 vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
 
-
 def last_replace(s, old, new):
     li = s.rsplit(old, 1)
     return new.join(li)
-
 
 def text_to_owo(text):
     """ Converts your text to OwO """
