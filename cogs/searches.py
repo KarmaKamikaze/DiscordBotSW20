@@ -118,7 +118,7 @@ class Searches(commands.Cog):
                         return
 
                 submissions = self.reddit.subreddit(chosen_subreddit).hot()
-                pick_post = random.randint(1, 10)
+                pick_post = random.randint(1, 20)
                 for i in range(0, pick_post):
                     submission = next(x for x in submissions if not x.stickied)
                 await ctx.send(submission.url)

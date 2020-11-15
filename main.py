@@ -1,8 +1,13 @@
+import discord
 import os
 from discord.ext import commands
 from settings import *
 
-bot = commands.Bot(command_prefix="!")
+owner_ids = [118189214591483913]
+# Intents are used to track member status and ownership
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix="!", owner_ids=owner_ids, intents=intents)
 
 
 # Add cogs from files
