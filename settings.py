@@ -6,6 +6,7 @@ if DEBUG:
     print("You are now in DEBUG mode!")
     from pathlib import Path
     from dotenv import load_dotenv
+
     env_path = Path(".") / ".env.debug"
     load_dotenv(dotenv_path=env_path)
     from settings_files.development import *
