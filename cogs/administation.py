@@ -1,22 +1,34 @@
 import discord
 from discord.ext import commands
+from utils import owner_or_mods
 from settings import MODERATOR_ROLE_NAME
-
-
-def owner_or_mods():
-    def predicate(ctx):
-        return commands.check_any(
-            commands.is_owner(), commands.has_role(MODERATOR_ROLE_NAME)
-        )
-
-    return commands.check(predicate)
 
 
 class Administration(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(brief="Loads a command cog")
+    @commands.is_owner()
+    async def load(self, ctx, cog: str):
+        try:
+            self.bot.load_extension(cog)
+        except Exception as e:
+            await ctx.send("Could not load %s." % cog)
+            return
+        await ctx.send("%s loaded!" % cog.title())
+
+    @commands.command(brief="Unloads a command cog")
+    @commands.is_owner()
+    async def unload(self, ctx, cog: str):
+        try:
+            self.bot.unload_extension(cog)
+        except Exception as e:
+            await ctx.send("Could not unload %s." % cog)
+            return
+        await ctx.send("%s unloaded!" % cog.title())
+
+    @commands.command(brief="Displays information about the server")
     # @commands.is_owner() # Only the bot owner can see this command
     # @commands.check(commands.is_owner()) # Same as above
     # @commands.has_role("Moderator") # Users with the role "Moderator" can see this command

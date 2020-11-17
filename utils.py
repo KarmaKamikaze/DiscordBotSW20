@@ -1,7 +1,17 @@
 import json
 import os
 import random
+from discord.ext import commands
 from settings import *
+
+
+def owner_or_mods():
+    def predicate(ctx):
+        return commands.check_any(
+            commands.is_owner(), commands.has_role(MODERATOR_ROLE_NAME)
+        )
+
+    return commands.check(predicate)
 
 
 async def get_mama_jokes():
