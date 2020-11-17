@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.flags import alias_flag_value
 from utils import owner_or_mods
 from settings import MODERATOR_ROLE_NAME
 
@@ -32,7 +33,7 @@ class Administration(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     async def unban(
-        self, ctx, member: str = "", reason: str = "User has been unbanned"
+        self, ctx, member: str = "", reason: str = "You have been unbanned."
     ):
         if member == "":
             await ctx.send("Please specify user to unban via user#discrim or id.")
@@ -94,7 +95,7 @@ class Administration(commands.Cog):
             return
         await ctx.send("%s unloaded!" % cog.title())
 
-    @commands.command(brief="Displays information about the server")
+    @commands.command(brief="Displays information about the server", aliases=["sinfo"])
     # @commands.is_owner() # Only the bot owner can see this command
     # @commands.check(commands.is_owner()) # Same as above
     # @commands.has_role("Moderator") # Users with the role "Moderator" can see this command

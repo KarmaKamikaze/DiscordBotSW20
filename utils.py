@@ -5,6 +5,14 @@ from discord.ext import commands
 from settings import *
 
 
+async def notify_user(member, message):
+    if member is not None:
+        channel = member.dm_channel
+        if channel is None:
+            channel = await member.create_dm()
+        await channel.send(message)
+
+
 def owner_or_mods():
     def predicate(ctx):
         return commands.check_any(
