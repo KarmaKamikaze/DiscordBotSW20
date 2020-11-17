@@ -1,5 +1,15 @@
 import discord
 from discord.ext import commands
+from settings import MODERATOR_ROLE_NAME
+
+
+def owner_or_mods():
+    def predicate(ctx):
+        return commands.check_any(
+            commands.is_owner(), commands.has_role(MODERATOR_ROLE_NAME)
+        )
+
+    return commands.check(predicate)
 
 
 class Administration(commands.Cog):
@@ -7,6 +17,11 @@ class Administration(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    # @commands.is_owner() # Only the bot owner can see this command
+    # @commands.check(commands.is_owner()) # Same as above
+    # @commands.has_role("Moderator") # Users with the role "Moderator" can see this command
+    # @commands.check_any(commands.is_owner(), commands.has_role("Moderator"))
+    @owner_or_mods()
     async def serverinfo(self, ctx):
         guild = ctx.guild
         no_text_channels = len(guild.text_channels)
