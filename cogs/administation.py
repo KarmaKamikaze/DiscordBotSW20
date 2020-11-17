@@ -32,7 +32,7 @@ class Administration(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     async def unban(
-        self, ctx, member: str = "", reason: str = "User has been unbanned"
+        self, ctx, member: str = "", reason: str = "You have been unbanned."
     ):
         if member == "":
             await ctx.send("Please specify user to unban via user#discrim or id.")
