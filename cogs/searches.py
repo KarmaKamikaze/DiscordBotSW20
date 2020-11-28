@@ -1,4 +1,5 @@
 import aiohttp
+from attr import __description__
 import discord
 import praw
 import random
@@ -25,7 +26,7 @@ class Searches(commands.Cog):
             )
 
     @commands.command(
-        description="Provide arguments", brief="The bot will repeat what you typed"
+        description="!say hi", brief="The bot will repeat what you typed."
     )
     async def say(self, ctx, *args):
         if len(args) > 0:
@@ -33,11 +34,13 @@ class Searches(commands.Cog):
         else:
             await ctx.send("It is not possible to send an empty message.")
 
-    @commands.command(brief="Text-to-OwO")
+    @commands.command(description="!owo What is this?", brief="Text-to-OwO")
     async def owo(self, ctx):
         await ctx.send(text_to_owo(ctx.message.content[5:]))
 
-    @commands.command(brief="Sends a random Yo Mama joke")
+    @commands.command(
+        description="!ym", brief="Sends a random Yo Mama joke", aliases=["ym"]
+    )
     async def yomama(self, ctx, member: discord.Member = None):
         joke = await get_mama_jokes()
         if member is not None:
@@ -45,7 +48,9 @@ class Searches(commands.Cog):
         else:
             await ctx.send(joke)
 
-    @commands.command(brief="Sends a random cat picture")
+    @commands.command(
+        description="!meow", brief="Sends a random cat image.", aliases=["meow"]
+    )
     async def randomcat(self, ctx):
         async with ctx.channel.typing():  # Make it look like the bot is typing (functions as a loading bar)
             # Set up a API client session and grab the json result as a temporary file
@@ -59,7 +64,9 @@ class Searches(commands.Cog):
 
                     await ctx.send(embed=embed)
 
-    @commands.command(brief="Sends a random dog picture")
+    @commands.command(
+        description="!woof", brief="Sends a random dog image.", aliases=["woof"]
+    )
     async def randomdog(self, ctx):
         async with ctx.channel.typing():  # Make it look like the bot is typing (functions as a loading bar)
             # Set up a API client session and grab the json result as a temporary file
@@ -73,7 +80,9 @@ class Searches(commands.Cog):
 
                     await ctx.send(embed=embed)
 
-    @commands.command(brief="Sends a random fox picture")
+    @commands.command(
+        description="!fluff", brief="Sends a random fox image.", aliases=["fluff"]
+    )
     async def randomfox(self, ctx):
         async with ctx.channel.typing():  # Make it look like the bot is typing (functions as a loading bar)
             # Set up a API client session and grab the json result as a temporary file
@@ -87,8 +96,12 @@ class Searches(commands.Cog):
 
                     await ctx.send(embed=embed)
 
-    @commands.command(brief="Sends a random image from Reddit")
-    async def randomimage(self, ctx, subreddit: str = ""):
+    @commands.command(
+        description="!image funny",
+        brief="Pulls a random image from Reddit using a subreddit search parameter.",
+        aliases=["img", "rimg", "randomimage"],
+    )
+    async def image(self, ctx, subreddit: str = ""):
         async with ctx.channel.typing():
             if self.reddit:
                 nsfw_flag = False

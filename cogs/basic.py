@@ -15,15 +15,17 @@ class Basic(commands.Cog):
         )
 
     @commands.command(
-        brief="Creates an invite-link for the current channel, which will last for 1 day"
+        description="!invcr",
+        brief="Creates a new invite link for the current channel, which will last for 1 day",
+        aliases=["invcr"],
     )
     @commands.guild_only()
-    async def invite(self, ctx):
+    async def invitecreate(self, ctx):
         link = await ctx.channel.create_invite(max_valid_days=1)
         await ctx.send(link)
 
     @commands.command(
-        description=".poke @someGuy.",
+        description="!poke @someGuy.",
         brief="Sends a DM to whoever you mention, telling them they have been poked by you.",
     )
     async def poke(self, ctx, member: discord.Member = None):

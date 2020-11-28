@@ -10,8 +10,9 @@ class Administration(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        description='.ban @some Guy "Your behaviour is toxic."',
+        description='!b @some Guy "Your behaviour is toxic."',
         brief="Bans a user by ID or name with an optional message.",
+        aliases=["b"],
     )
     @owner_or_mods()
     @commands.guild_only()
@@ -26,7 +27,7 @@ class Administration(commands.Cog):
             await ctx.send("Please specify user to ban via mention.")
 
     @commands.command(
-        description=".unban karma#1234 or .unban 123123123",
+        description="!unban karma#1234 or !unban 123123123",
         brief="Unbans a user with the provided user#discrim or id.",
     )
     @owner_or_mods()
@@ -60,8 +61,9 @@ class Administration(commands.Cog):
         await ctx.send("%s was not found in the banlist." % member.title())
 
     @commands.command(
-        description='.kick @some Guy "Your behaviour is toxic."',
+        description='!k @some Guy "Your behaviour is toxic."',
         brief="Kicks a mentioned user.",
+        aliases=["k"],
     )
     @owner_or_mods()
     @commands.guild_only()
@@ -95,7 +97,11 @@ class Administration(commands.Cog):
             return
         await ctx.send("%s unloaded!" % cog.title())
 
-    @commands.command(brief="Displays information about the server", aliases=["sinfo"])
+    @commands.command(
+        description="!sinfo Some Server",
+        brief="Displays information about the server the bot is on. If no server is supplied, it defaults to the current server.",
+        aliases=["sinfo"],
+    )
     # @commands.is_owner() # Only the bot owner can see this command
     # @commands.check(commands.is_owner()) # Same as above
     # @commands.has_role("Moderator") # Users with the role "Moderator" can see this command
