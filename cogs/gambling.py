@@ -1,5 +1,6 @@
 import random
 from discord.ext import commands
+from rps.controller import RPSGame
 from rps.model import RPS
 from rps.parser import rock_paper_scissors_parser
 
@@ -40,25 +41,10 @@ class Gambling(commands.Cog):
         ctx,
         user_choice: rock_paper_scissors_parser = rock_paper_scissors_parser(RPS.ROCK),
     ):
-        rps_model = RPS()
-        bot_choice = random.choice(rps_model.get_choices())
+        game_instance = RPSGame()
         user_choice = user_choice.choice
 
-        # User is first parameter, bot is second
-        winner_check = {
-            (RPS.ROCK, RPS.PAPER): False,
-            (RPS.ROCK, RPS.SCISSORS): True,
-            (RPS.PAPER, RPS.ROCK): True,
-            (RPS.PAPER, RPS.SCISSORS): False,
-            (RPS.SCISSORS, RPS.ROCK): False,
-            (RPS.SCISSORS, RPS.PAPER): True,
-        }
-
-        won = None
-        if bot_choice == user_choice:
-            won = None
-        else:
-            won = winner_check[(user_choice, bot_choice)]
+        won, bot_choice = game_instance.play(user_choice)
 
         if won is True:
             message = "You win: %s beats %s!" % (
@@ -71,7 +57,7 @@ class Gambling(commands.Cog):
                 bot_choice.title(),
             )
         else:
-            message = "It's a draw!"
+            message = "It's a draw! You both chose %s." % user_choice
 
         await ctx.send(message)
 
