@@ -30,6 +30,14 @@ async def get_mama_jokes():
     return insult
 
 
+def get_hangman_word():
+    with open(os.path.join(DATA_DIR, "hangman_dictionary.json")) as word_list:
+        words = json.load(word_list)
+    random_word_length = random.choice(list(words.keys()))
+    word_to_guess = random.choice(list(words[random_word_length]))
+    return word_to_guess
+
+
 vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
 
 

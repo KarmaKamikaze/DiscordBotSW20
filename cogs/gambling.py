@@ -1,8 +1,14 @@
 import random
 from discord.ext import commands
+from hangman.controller import HangmanGame
 from rps.controller import RPSGame
 from rps.model import RPS
 from rps.parser import rock_paper_scissors_parser
+
+# Hangman variables
+hangman_games = {}
+word = "discord"
+user_guesses = list()
 
 
 class Gambling(commands.Cog):
@@ -60,6 +66,36 @@ class Gambling(commands.Cog):
             message = "It's a draw! You both chose %s." % user_choice
 
         await ctx.send(message)
+
+    @commands.command(
+        description="!hangman d",
+        brief="Start a game of hangman.",
+        usage="!hangman [character] or [word]",
+        aliases=["hm"],
+    )
+    async def hangman(self, ctx, user_guess: str):
+        player_id = ctx.author.id
+        hangman_instance = HangmanGame()
+        game_over, won = hangman_instance.run(player_id, user_guess)
+
+        if game_over:
+            game_over_message = "You lost! You did not guess the word."
+            if won:
+                game_over_message = "You won! You guessed the word!"
+            game_over_message = (
+                game_over_message
+                + "\nThe word was %s." % hangman_instance.get_secret_word()
+            )
+            await hangman_instance.reset(player_id)
+            await ctx.send(game_over_message)
+        else:
+            await ctx.send(
+                "Progress: %s\nGuesses so far: %s"
+                % (
+                    hangman_instance.get_progress_string(),
+                    hangman_instance.get_guess_string(),
+                )
+            )
 
 
 def setup(bot):
